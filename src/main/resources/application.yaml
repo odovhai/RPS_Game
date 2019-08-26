@@ -17,3 +17,8 @@ spring:
 app:
   admin-user: admin
   admin-password: Adm1n!
+  rps-game:
+    fair-game: true #if false define next probabilities parts
+    ai-wins-part: 79
+    human-wins-part: 61
+    tie-part: 63

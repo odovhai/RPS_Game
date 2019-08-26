@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface UserGameRepository extends JpaRepository<UserGame, Long> {
 
     Optional<UserGame> findByUserAndFinishedIsFalse(User user);
+    Optional<UserGame> findByIdAndUser(Long id, User user);
 }

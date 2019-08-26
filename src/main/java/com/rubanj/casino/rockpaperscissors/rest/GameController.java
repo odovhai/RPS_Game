@@ -1,20 +1,16 @@
 package com.rubanj.casino.rockpaperscissors.rest;
 
 import com.rubanj.casino.rockpaperscissors.converter.EntityDtoConverter;
-import com.rubanj.casino.rockpaperscissors.domain.dto.RPSGameDto;
-import com.rubanj.casino.rockpaperscissors.domain.dto.RPSGameRequest;
-import com.rubanj.casino.rockpaperscissors.domain.dto.UserCredentials;
-import com.rubanj.casino.rockpaperscissors.domain.dto.UserGameDto;
+import com.rubanj.casino.rockpaperscissors.domain.dto.*;
 import com.rubanj.casino.rockpaperscissors.domain.model.RPSGame;
+import com.rubanj.casino.rockpaperscissors.domain.model.RPSResult;
 import com.rubanj.casino.rockpaperscissors.domain.model.UserGame;
 import com.rubanj.casino.rockpaperscissors.service.GameService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -33,6 +29,22 @@ public class GameController {
     @PostMapping(path = "/finish")
     public UserGameDto finishLastGame(@RequestBody @Valid UserCredentials userCredentials) {
         return userGameConverter.toDto(gameService.finishLastGame(userCredentials));
+
+    }
+
+    @PostMapping(path = "/{gameId}")
+    public RPSGameStatisticDto getStatistics(@PathVariable Long gameId, @RequestBody @Valid UserCredentials userCredentials) {
+
+        List<RPSGame> rpsGames = gameService.findRpsGames(gameId, userCredentials);
+
+        return RPSGameStatisticDto.builder()
+                .userGameId(gameId)
+                .gamesCount(rpsGames.size())
+                .aiWinsCount(rpsGames.stream().filter(g -> g.getResult() == RPSResult.AI).count())
+                .userWinsCont(rpsGames.stream().filter(g -> g.getResult() == RPSResult.HUMAN).count())
+                .tieCont(rpsGames.stream().filter(g -> g.getResult() == RPSResult.TIE).count())
+                .games(rpsGameConverter.toDtoList(rpsGames))
+                .build();
     }
 
     @PostMapping(path = "/rps")
