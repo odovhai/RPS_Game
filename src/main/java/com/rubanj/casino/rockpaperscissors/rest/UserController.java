@@ -34,7 +34,7 @@ public class UserController {
     }
 
     @PutMapping
-    public UserDto changeUserPassword(@RequestBody UserCredentials credentials, @RequestParam String newPassword) {
+    public UserDto changeUserPassword(@RequestBody @Valid UserCredentials credentials, @RequestParam String newPassword) {
         return converter.toDto(service.changePassword(credentials, newPassword));
     }
 
