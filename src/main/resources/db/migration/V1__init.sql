@@ -14,7 +14,7 @@ CREATE TABLE user_games
   finished   BOOLEAN   NOT NULL DEFAULT FALSE,
   created_at TIMESTAMP NOT NULL,
   updated_at TIMESTAMP,
-  FOREIGN KEY (user_id) REFERENCES users (id)
+  FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
 
 CREATE TABLE rps_games
@@ -26,5 +26,5 @@ CREATE TABLE rps_games
   result       VARCHAR(50) NOT NULL,
   created_at   TIMESTAMP   NOT NULL,
 
-  FOREIGN KEY (user_game_id) REFERENCES user_games (id)
+  FOREIGN KEY (user_game_id) REFERENCES user_games (id) ON DELETE CASCADE
 )

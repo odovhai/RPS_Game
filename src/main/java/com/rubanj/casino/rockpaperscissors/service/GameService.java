@@ -17,4 +17,5 @@ public interface GameService {
 
     List<RPSGame> findRpsGames(Long gameId, UserCredentials userCredentials);
 
+    List<UserGame> findAll();
 }

@@ -2,6 +2,7 @@ package com.rubanj.casino.rockpaperscissors.domain.model;
 
 import lombok.Data;
 import lombok.ToString;
+import org.apache.commons.lang3.builder.ToStringExclude;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -24,6 +25,7 @@ public class User {
     private String name;
 
     @Column
+    @ToStringExclude
     private String password;
 
     @Temporal(TemporalType.TIMESTAMP)

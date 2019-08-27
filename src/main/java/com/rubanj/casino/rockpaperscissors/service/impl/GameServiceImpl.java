@@ -47,6 +47,7 @@ public class GameServiceImpl implements GameService {
                 .build();
         UserGame result = userGameRepository.save(userGame);
         chainProvider.initNewChain(result.getId());
+        log.info("New game [{}] started for user [{}]", result, userCredentials.getUserName());
         return result;
     }
 
@@ -60,6 +61,7 @@ public class GameServiceImpl implements GameService {
         userGame.setFinished(true);
         UserGame result = userGameRepository.save(userGame);
         chainProvider.evictChain(result.getId());
+        log.info("Game [{}] finished for user [{}]", result, userCredentials.getUserName());
         return result;
     }
 
@@ -88,6 +90,8 @@ public class GameServiceImpl implements GameService {
                 .aiChoice(aiChoice)
                 .result(rpsResult)
                 .build();
+
+        log.debug("Game [{}]. Result: [{}]", userGame, rpsGame);
         return rpsGameRepository.save(rpsGame);
     }
 
@@ -114,5 +118,9 @@ public class GameServiceImpl implements GameService {
         return rpsGameRepository.findByUserGame(userGame);
     }
 
+    @Override
+    public List<UserGame> findAll() {
+        return userGameRepository.findAll();
+    }
 
 }

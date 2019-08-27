@@ -7,11 +7,13 @@ import com.rubanj.casino.rockpaperscissors.domain.model.RPSResult;
 import com.rubanj.casino.rockpaperscissors.domain.model.UserGame;
 import com.rubanj.casino.rockpaperscissors.service.GameService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/games")
@@ -20,6 +22,12 @@ public class GameController {
     private final GameService gameService;
     private final EntityDtoConverter<UserGame, UserGameDto> userGameConverter;
     private final EntityDtoConverter<RPSGame, RPSGameDto> rpsGameConverter;
+
+    @GetMapping
+    public List<UserGameDto> getAll() {
+        List<UserGame> result = gameService.findAll();
+        return userGameConverter.toDtoList(result);
+    }
 
     @PostMapping(path = "/start")
     public UserGameDto startNewGame(@RequestBody @Valid UserCredentials userCredentials) {

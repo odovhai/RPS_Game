@@ -33,7 +33,19 @@ public class UserServiceImpl implements UserService {
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepository.save(user);
+        User result = userRepository.save(user);
+        log.info("User [{}] created", result);
+        return result;
+    }
+
+    @Override
+    public User changePassword(UserCredentials credentials, String newPassword) {
+        validateUserAccess(credentials);
+        User user = findByName(credentials.getUserName());
+        user.setPassword(passwordEncoder.encode(newPassword));
+        User result = userRepository.save(user);
+        log.info("Password for user [{}] has been changed.", result);
+        return result;
     }
 
     @Override
@@ -49,5 +61,12 @@ public class UserServiceImpl implements UserService {
         if (!(passwordEncoder.matches(userCredentials.getPassword(), user.getPassword()))) {
             throw new BadCredentialsException(errorMsg);
         }
+    }
+
+    @Override
+    public void delete(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new NoSuchElementException(String.format("User with id=[%d] does not exist", userId)));
+        userRepository.delete(user);
+        log.info("User [{}] deleted", user);
     }
 }

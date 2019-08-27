@@ -1,6 +1,7 @@
 package com.rubanj.casino.rockpaperscissors.rest;
 
 import com.rubanj.casino.rockpaperscissors.converter.EntityDtoConverter;
+import com.rubanj.casino.rockpaperscissors.domain.dto.UserCredentials;
 import com.rubanj.casino.rockpaperscissors.domain.dto.UserDto;
 import com.rubanj.casino.rockpaperscissors.domain.model.User;
 import com.rubanj.casino.rockpaperscissors.service.UserService;
@@ -30,5 +31,15 @@ public class UserController {
     public UserDto create(@RequestBody @Valid UserDto userDto) {
         User result = service.create(converter.toEntity(userDto));
         return converter.toDto(result);
+    }
+
+    @PutMapping
+    public UserDto changeUserPassword(@RequestBody UserCredentials credentials, @RequestParam String newPassword) {
+        return converter.toDto(service.changePassword(credentials, newPassword));
+    }
+
+    @DeleteMapping(path = "/{userId}")
+    public void deleteUser(@PathVariable Long userId) {
+        service.delete(userId);
     }
 }

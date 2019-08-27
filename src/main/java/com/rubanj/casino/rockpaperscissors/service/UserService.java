@@ -11,8 +11,13 @@ public interface UserService {
 
     User create(User user);
 
+    User changePassword(UserCredentials credentials, String newPassword);
+
     User findByName(String userName);
 
     void validateUserAccess(UserCredentials userCredentials);
+
+    void delete(Long userId);
+
 
 }

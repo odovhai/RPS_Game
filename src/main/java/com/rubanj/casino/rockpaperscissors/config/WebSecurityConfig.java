@@ -28,8 +28,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable().httpBasic().and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/games/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/games/**").hasRole(Roles.ADMIN.toString())
                 .antMatchers(HttpMethod.POST, "/users/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/users/**").hasRole(Roles.ADMIN.toString());
+                .antMatchers(HttpMethod.PUT, "/users/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/users/**").hasRole(Roles.ADMIN.toString())
+                .antMatchers(HttpMethod.DELETE, "/users/**").hasRole(Roles.ADMIN.toString());
     }
 
     @Override
