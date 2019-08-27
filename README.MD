@@ -12,7 +12,7 @@ It can be activated in application config file or via the appropriate env variab
 
 
 ####1. Java and Maven
-The application use [Java 12](https://www.oracle.com/technetwork/java/javase/downloads/jdk12-downloads-5295953.html) 
+The application uses [Java 12](https://www.oracle.com/technetwork/java/javase/downloads/jdk12-downloads-5295953.html) 
 and [Maven](https://maven.apache.org/download.cgi)  as build tools, so those items should be installed.
 
 ####2. Database
@@ -32,6 +32,8 @@ It needs either to [install postgres](https://www.postgresql.org/download/) data
 To run db in docker from project root directory run: 
 
    `$ docker-compose up`
+   
+All needed tables will be created automatically via [Flyway DB migration](https://flywaydb.org/getstarted/how) scripts after first application startup. 
 
 ####3. Application game configs
 
